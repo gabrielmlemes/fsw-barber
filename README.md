@@ -1,9 +1,9 @@
 - Setup do banco ok
 - Seeding do banco (colocar dados) ok
 - Prettier Plugin Tailwind (Organizar classes do tailwind) ok
-- Introdução ao Next
-- Tailwind e shadcn
- Git Hooks
+- Introdução ao Next ok
+- Tailwind e shadcn ok
+ Git Hooks (Usando Husky com eslint e prettier)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
