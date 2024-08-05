@@ -1,5 +1,6 @@
 - Setup do banco ok
-- Seeding do banco (colocar dados)
+- Seeding do banco (colocar dados) ok
+- Prettier Plugin Tailwind (Organizar classes do tailwind) ok
 - Introdução ao Next
 - Tailwind e shadcn
  Git Hooks
