@@ -3,8 +3,8 @@
 - Prettier Plugin Tailwind (Organizar classes do tailwind) ok
 - Introdução ao Next ok
 - Tailwind e shadcn ok
- Git Hooks (Usando Husky com eslint e prettier)
-
+- Git Hooks (Usando Husky com eslint e prettier)
+- Usar conventional commits ok
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
