@@ -1,19 +1,13 @@
-import {
-  Droplets,
-  EyeIcon,
-  FootprintsIcon,
-  Hand,
-  SearchIcon,
-} from "lucide-react"
+import { SearchIcon } from "lucide-react"
 import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import { Input } from "./_components/ui/input"
 import Image from "next/image"
 import { Card, CardContent } from "./_components/ui/card"
-import { Badge } from "./_components/ui/badge"
-import { Avatar, AvatarImage } from "./_components/ui/avatar"
 import { db } from "./_lib/prisma"
 import BarbershopItem from "./_components/barbershop-item"
+import { QuickSearchOptions } from "./_constants/search"
+import BookingItem from "./_components/booking-item"
 
 const Home = async () => {
   // chamando o banco de dados
@@ -31,10 +25,10 @@ const Home = async () => {
 
       <main className="p-5">
         {/* TEXTO */}
-        <h2 className="text-xl font-bold">Olá, Joãozinho</h2>
+        <h2 className="text-xl font-bold">Olá, Gabriel</h2>
         <p>Terça, 05 de agosto</p>
 
-        {/* BUSCA */}
+        {/* INPUT DE BUSCA */}
         <div className="mt-6 flex items-center gap-2">
           <Input placeholder="Faça sua busca" />
           <Button>
@@ -44,39 +38,17 @@ const Home = async () => {
 
         {/* BUSCA RÁPIDA */}
         <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-          <Button variant="secondary" className="gap-2">
-            <Image src="/cabelo.svg" alt="cabelo" width={16} height={16} />
-            Cabelo
-          </Button>
-          <Button variant="secondary" className="gap-2">
-            <Image src="/barba.svg" alt="barba" width={16} height={16} />
-            Barba
-          </Button>
-          <Button variant="secondary" className="gap-2">
-            <Image
-              src="/acabamento.svg"
-              alt="acabamento"
-              width={16}
-              height={16}
-            />
-            Acabamento
-          </Button>
-          <Button variant="secondary" className="gap-2">
-            <Droplets size={16} />
-            Hidratação
-          </Button>
-          <Button variant="secondary" className="gap-2">
-            <FootprintsIcon size={16} />
-            Pezinho
-          </Button>
-          <Button variant="secondary" className="gap-2">
-            <EyeIcon size={16} />
-            Sobrancelha
-          </Button>
-          <Button variant="secondary" className="gap-2">
-            <Hand size={16} />
-            Massagem
-          </Button>
+          {QuickSearchOptions.map((option) => (
+            <Button variant="secondary" className="gap-2" key={option.title}>
+              <Image
+                src={option.imageUrl}
+                alt={option.title}
+                width={16}
+                height={16}
+              />
+              {option.title}
+            </Button>
+          ))}
         </div>
 
         {/* IMAGEM */}
@@ -90,31 +62,7 @@ const Home = async () => {
         </div>
 
         {/* AGENDAMENTO */}
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-          Agendamentos
-        </h2>
-        <Card>
-          <CardContent className="flex justify-between p-0">
-            {/* ESQUERDA */}
-            <div className="flex flex-col gap-2 py-5 pl-5">
-              <Badge className="w-fit">Confirmado</Badge>
-              <h3 className="font-semibold">Corte de Cabelo</h3>
-
-              <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png" />
-                </Avatar>
-                <p className="text-sm">Barbearia FSW</p>
-              </div>
-            </div>
-            {/* DIREITA */}
-            <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
-              <p className="text-sm">Fevereiro</p>
-              <p className="text-2xl">06</p>
-              <p className="text-sm">09:45</p>
-            </div>
-          </CardContent>
-        </Card>
+        <BookingItem />
 
         {/* RECOMENDADOS */}
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
