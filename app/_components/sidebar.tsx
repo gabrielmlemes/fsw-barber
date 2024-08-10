@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "./ui/button"
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react"
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet"
@@ -12,8 +14,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog"
+import { signIn, signOut, useSession } from "next-auth/react"
+import { Avatar, AvatarImage } from "./ui/avatar"
 
 const SidebarButton = () => {
+  const { data } = useSession()
+  const handleLoginWithGoogleClick = () => signIn("google")
+  const handleLogoutClick = () => signOut()
+
   return (
     <SheetContent className="overflow-y-auto">
       <SheetHeader>
@@ -22,43 +30,53 @@ const SidebarButton = () => {
 
       {/* User Infos */}
       <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
-        <h2 className="font-bold">Olá, faça seu login!</h2>
+        {data?.user ? (
+          <div className="flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src={data?.user?.image ?? ""} />
+            </Avatar>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button size="icon">
-              <LogInIcon />
-            </Button>
-          </DialogTrigger>
+            <div className="ml-3">
+              <p className="font-bold">{data?.user?.name}</p>
+              <p className="text-xs text-gray-300">{data?.user?.email}</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h2 className="font-bold">Olá, faça seu login!</h2>
 
-          <DialogContent className="w-[90%] rounded-sm">
-            <DialogHeader>
-              <DialogTitle>Faça seu login na plataforma</DialogTitle>
-              <DialogDescription>
-                Conecte-se usando sua conta do Google
-              </DialogDescription>
-            </DialogHeader>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="icon">
+                  <LogInIcon />
+                </Button>
+              </DialogTrigger>
 
-            <Button className="gap-1 font-bold" variant="outline">
-              <Image
-                src="/Google.svg"
-                alt="ícone google"
-                width={18}
-                height={18}
-              />
-              Google
-            </Button>
-          </DialogContent>
-        </Dialog>
+              <DialogContent className="w-[90%] rounded-sm">
+                <DialogHeader>
+                  <DialogTitle>Faça seu login na plataforma</DialogTitle>
+                  <DialogDescription>
+                    Conecte-se usando sua conta do Google
+                  </DialogDescription>
+                </DialogHeader>
 
-        {/* <Avatar>
-          <AvatarImage src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fHww" />
-        </Avatar>
-
-        <div className="ml-3">
-          <p className="font-bold">Gabriel Lemes</p>
-          <p className="text-xs text-gray-300">gabriel@teste.com</p>
-        </div> */}
+                <Button
+                  className="gap-1 font-bold"
+                  variant="outline"
+                  onClick={handleLoginWithGoogleClick}
+                >
+                  <Image
+                    src="/Google.svg"
+                    alt="ícone google"
+                    width={18}
+                    height={18}
+                  />
+                  Google
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </>
+        )}
       </div>
 
       {/* Menu Header */}
@@ -98,7 +116,11 @@ const SidebarButton = () => {
 
       {/* Logout */}
       <div className="flex flex-col py-5">
-        <Button variant="ghost" className="justify-start gap-2">
+        <Button
+          variant="ghost"
+          className="justify-start gap-2"
+          onClick={handleLogoutClick}
+        >
           <LogOutIcon size={18} />
           Sair da conta
         </Button>
