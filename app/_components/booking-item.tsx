@@ -1,3 +1,5 @@
+"use client"
+
 import { Prisma } from "@prisma/client"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
@@ -6,13 +8,29 @@ import { format, isFuture } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import {
   Sheet,
+  SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet"
 import Image from "next/image"
 import PhoneItem from "./phone-item"
+import { Button } from "./ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
+import { DialogClose } from "@radix-ui/react-dialog"
+import { deleteBooking } from "../_actions/delete-booking"
+import { toast } from "sonner"
+import { useState } from "react"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -27,14 +45,30 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+
   const {
     service: { barbershop },
   } = booking
 
   const isConfirmed = isFuture(booking.date)
 
+  const handleCancelBooking = async () => {
+    try {
+      await deleteBooking(booking.id)
+      toast.success("Agendamento cancelado com sucesso!")
+      setIsSheetOpen(false)
+    } catch (error) {
+      toast.error("Erro ao cancelar agendamento!")
+    }
+  }
+
+  const handleSheetOpenChange = (isOpen: boolean) => {
+    setIsSheetOpen(isOpen)
+  }
+
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="w-full">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
@@ -71,11 +105,12 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         </Card>
       </SheetTrigger>
 
-      <SheetContent className="w-[90%]">
+      <SheetContent className="w-[90%] overflow-y-auto [&::-webkit-scrollbar]:hidden">
         <SheetHeader className="border-b border-solid pb-5">
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
 
+        {/* CARD MAPA */}
         <div className="relative mt-6 flex h-[180px] w-full items-end">
           <Image
             src="/map.png"
@@ -98,6 +133,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </Card>
         </div>
 
+        {/* CARD INFO */}
         <div className="mt-6">
           <Badge
             className="w-fit"
@@ -105,50 +141,100 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           >
             {isConfirmed ? "Confirmado" : "Finalizado"}
           </Badge>
+
+          <Card className="mb-6 mt-3">
+            <CardContent className="space-y-3 p-3">
+              <div className="flex items-center justify-between">
+                <h2 className="font-bold">{booking.service.name}</h2>
+                <p className="text-sm font-bold">
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(Number(booking.service.price))}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-gray-400">Data</h2>
+                <p className="text-sm">
+                  {format(booking.date, "d 'de' MMMM", {
+                    locale: ptBR,
+                  })}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-gray-400">Horário</h2>
+                <p className="text-sm">
+                  {format(booking.date, "HH:mm", {
+                    locale: ptBR,
+                  })}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-gray-400">Barbearia</h2>
+                <p className="text-sm">{barbershop.name}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* TELEFONES FOOTER */}
+          <div className="space-y-3">
+            {barbershop.phones.map((phone) => (
+              <PhoneItem key={phone} phone={phone} />
+            ))}
+          </div>
         </div>
 
-        <Card className="mb-6 mt-3">
-          <CardContent className="space-y-3 p-3">
-            <div className="flex items-center justify-between">
-              <h2 className="font-bold">{booking.service.name}</h2>
-              <p className="text-sm font-bold">
-                {Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(Number(booking.service.price))}
-              </p>
-            </div>
+        {/* BOTÕES FOOTER */}
+        <SheetFooter className="mt-6">
+          <div className="flex items-center gap-3">
+            <SheetClose asChild>
+              <Button variant="outline" className="w-full">
+                Voltar
+              </Button>
+            </SheetClose>
 
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm text-gray-400">Data</h2>
-              <p className="text-sm">
-                {format(booking.date, "d 'de' MMMM", {
-                  locale: ptBR,
-                })}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm text-gray-400">Horário</h2>
-              <p className="text-sm">
-                {format(booking.date, "HH:mm", {
-                  locale: ptBR,
-                })}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm text-gray-400">Barbearia</h2>
-              <p className="text-sm">{barbershop.name}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="space-y-3">
-          {barbershop.phones.map((phone) => (
-            <PhoneItem key={phone} phone={phone} />
-          ))}
-        </div>
+            {/* BOTÃO CANCELAR RESERVA */}
+            {isConfirmed && (
+              <Dialog>
+                <DialogTrigger className="w-full">
+                  <Button className="w-full" variant="destructive">
+                    Cancelar reserva
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[90%]">
+                  <DialogHeader>
+                    <DialogTitle>
+                      Você deseja cancelar seu agendamento?
+                    </DialogTitle>
+                    <DialogDescription>
+                      Ao cancelar, você perderá sua reserva e não poderá
+                      recupera-lá. Essa ação é irreversível!
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="flex flex-row gap-3">
+                    <DialogClose asChild>
+                      <Button variant="secondary" className="w-full">
+                        Voltar
+                      </Button>
+                    </DialogClose>
+                    <DialogClose className="w-full">
+                      <Button
+                        variant="destructive"
+                        onClick={handleCancelBooking}
+                        className="w-full"
+                      >
+                        Confirmar
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   )
