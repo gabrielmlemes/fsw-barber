@@ -9,6 +9,8 @@ import Search from "./_components/search"
 import Link from "next/link"
 import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
 const Home = async () => {
   // chamando o banco de dados
@@ -47,8 +49,16 @@ const Home = async () => {
 
       <main className="p-5">
         {/* TEXTO */}
-        <h2 className="text-xl font-bold">Olá, Usuário</h2>
-        <p>Terça, 05 de agosto</p>
+        <h2 className="text-xl font-bold">
+          Olá,{" "}
+          {session?.user ? session.user.name?.split(" ")[0] : "bem vindo(a)!"}
+        </h2>
+        <p>
+          <span className="capitalize">
+            {format(new Date(), "EEEE, dd", { locale: ptBR })}
+          </span>
+          <span> de {format(new Date(), "MMMM", { locale: ptBR })}</span>
+        </p>
 
         {/* INPUT DE BUSCA */}
         <div className="mt-6">
