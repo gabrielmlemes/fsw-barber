@@ -2,19 +2,19 @@ import { getServerSession } from "next-auth"
 import Header from "../_components/header"
 import { db } from "../_lib/prisma"
 import { authOptions } from "../_lib/auth"
-import { notFound } from "next/navigation"
 import BookingItem from "../_components/booking-item"
+import GoogleSignIn from "../_components/google-sign-in"
 
 const Bookings = async () => {
   const session = await getServerSession(authOptions)
+
   if (!session?.user) {
-    // TODO: MOSTRAR POP-UP DE LOGIN
-    return notFound()
+    return <GoogleSignIn />
   }
 
   const confirmedBookings = await db.booking.findMany({
     where: {
-      userId: (session.user as any).id,
+      userId: (session?.user as any).id,
       date: {
         gte: new Date(),
       },
@@ -33,7 +33,7 @@ const Bookings = async () => {
 
   const concludedBookings = await db.booking.findMany({
     where: {
-      userId: (session.user as any).id,
+      userId: (session?.user as any).id,
       date: {
         lt: new Date(),
       },
