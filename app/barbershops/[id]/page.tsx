@@ -1,3 +1,4 @@
+import Header from "@/app/_components/header"
 import PhoneItem from "@/app/_components/phone-item"
 import ServiceItem from "@/app/_components/service-item"
 import SidebarButton from "@/app/_components/sidebar"
@@ -32,6 +33,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
   return (
     <div>
+      <Header />
       {/* IMAGEM */}
       <div className="relative h-[250px] w-full">
         <Image
@@ -52,19 +54,21 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           </Link>
         </Button>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              size="icon"
-              variant="outline"
-              className="absolute right-4 top-4"
-            >
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
+        <div className="lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                className="absolute right-4 top-4"
+              >
+                <MenuIcon />
+              </Button>
+            </SheetTrigger>
 
-          <SidebarButton />
-        </Sheet>
+            <SidebarButton />
+          </Sheet>
+        </div>
       </div>
 
       {/* Título */}

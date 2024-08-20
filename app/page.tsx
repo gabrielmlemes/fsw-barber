@@ -11,6 +11,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { ArrowRightCircleIcon } from "lucide-react"
 
 const Home = async () => {
   // chamando o banco de dados
@@ -19,6 +20,11 @@ const Home = async () => {
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
       name: "desc",
+    },
+  })
+  const mostVisitedBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: "asc",
     },
   })
   const confirmedBookings = session?.user
@@ -49,24 +55,72 @@ const Home = async () => {
 
       <main className="p-5">
         {/* TEXTO */}
-        <h2 className="text-xl font-bold">
-          Olá,{" "}
-          {session?.user ? session.user.name?.split(" ")[0] : "bem vindo(a)!"}
-        </h2>
-        <p>
-          <span className="capitalize">
-            {format(new Date(), "EEEE, dd", { locale: ptBR })}
-          </span>
-          <span> de {format(new Date(), "MMMM", { locale: ptBR })}</span>
-        </p>
+        <div className="rounded lg:grid lg:grid-cols-2 lg:bg-[url('/bg-barber.jpeg')] lg:bg-cover lg:bg-center lg:bg-no-repeat lg:pb-8">
+          <div className="lg:max-w-[85%] lg:pl-24 lg:pt-8">
+            {/* User infos */}
+            <div>
+              <h2 className="text-xl font-bold">
+                Olá,{" "}
+                {session?.user
+                  ? session.user.name?.split(" ")[0]
+                  : "bem vindo(a)!"}
+              </h2>
+              {/* Dia */}
+              <p>
+                <span className="capitalize">
+                  {format(new Date(), "EEEE, dd", { locale: ptBR })}
+                </span>
+                <span> de {format(new Date(), "MMMM", { locale: ptBR })}</span>
+              </p>
+            </div>
 
-        {/* INPUT DE BUSCA */}
-        <div className="mt-6">
-          <Search />
+            {/* INPUT DE BUSCA */}
+            <div className="mt-6 lg:w-full">
+              <Search />
+            </div>
+
+            {/* AGENDAMENTOS */}
+            <div className="hidden w-full lg:flex lg:flex-col">
+              {confirmedBookings.length > 0 && (
+                <>
+                  {/* AGENDAMENTO */}
+                  <h2 className="lg:mb-3 lg:mt-6 lg:text-xs lg:font-bold lg:uppercase">
+                    AGENDAMENTOS
+                  </h2>
+
+                  <div className="lg:flex lg:gap-3 lg:overflow-x-auto lg:[&::-webkit-scrollbar]:hidden">
+                    {confirmedBookings.map((booking) => (
+                      <BookingItem
+                        key={booking.id}
+                        booking={JSON.parse(JSON.stringify(booking))}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* MAIS VISITADOS */}
+          <div className="lg:relative lg:w-11/12">
+            <h2 className="hidden lg:mb-3 lg:mt-6 lg:flex lg:text-xs lg:font-bold lg:uppercase lg:text-white">
+              mais visitados
+            </h2>
+
+            <div className="hidden lg:flex lg:gap-4 lg:overflow-auto lg:[&::-webkit-scrollbar]:hidden">
+              {mostVisitedBarbershops.map((barbershop) => (
+                <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+              ))}
+            </div>
+            <ArrowRightCircleIcon
+              className="hidden lg:absolute lg:-right-3 lg:top-[50%] lg:flex"
+              size={26}
+            />
+          </div>
         </div>
 
         {/* BUSCA RÁPIDA */}
-        <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+        <div className="mt-6 flex gap-3 overflow-x-scroll lg:hidden [&::-webkit-scrollbar]:hidden">
           {QuickSearchOptions.map((option) => (
             <Button
               variant="secondary"
@@ -88,7 +142,7 @@ const Home = async () => {
         </div>
 
         {/* IMAGEM */}
-        <div className="relative mt-6 h-[150px] w-full">
+        <div className="relative mt-6 h-[150px] w-full lg:hidden">
           <Image
             src="/banner-01.png"
             fill
@@ -97,23 +151,25 @@ const Home = async () => {
           />
         </div>
 
-        {confirmedBookings.length > 0 && (
-          <>
-            {/* AGENDAMENTO */}
-            <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-              AGENDAMENTOS
-            </h2>
+        <div className="lg:hidden">
+          {confirmedBookings.length > 0 && (
+            <>
+              {/* AGENDAMENTO */}
+              <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                AGENDAMENTOS
+              </h2>
 
-            <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-              {confirmedBookings.map((booking) => (
-                <BookingItem
-                  key={booking.id}
-                  booking={JSON.parse(JSON.stringify(booking))}
-                />
-              ))}
-            </div>
-          </>
-        )}
+              <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                {confirmedBookings.map((booking) => (
+                  <BookingItem
+                    key={booking.id}
+                    booking={JSON.parse(JSON.stringify(booking))}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
         {/* RECOMENDADOS */}
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
