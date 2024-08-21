@@ -177,7 +177,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             />
           </div>
           {/* DIREITA */}
-          <div className="space-y-2">
+          <div className="w-full space-y-2">
             <h3 className="text-sm font-semibold">{service.name}</h3>
             <p className="text-sm text-gray-400">{service.description}</p>
             {/* PREÇO E BOTÃO */}
@@ -201,12 +201,13 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   Reservar
                 </Button>
 
-                <SheetContent className="overflow-y-auto px-0 [&::-webkit-scrollbar]:hidden">
-                  <SheetHeader>
+                {/* SIDEBAR DE RESERVA */}
+                <SheetContent className="overflow-y-auto px-0 lg:w-full [&::-webkit-scrollbar]:hidden">
+                  <SheetHeader className="sm:flex sm:items-center sm:border-b sm:border-solid sm:pb-5">
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
 
-                  <div className="border-b border-solid py-5">
+                  <div className="border-b border-solid py-5 lg:w-full">
                     <Calendar
                       mode="single"
                       locale={ptBR}
@@ -275,6 +276,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     <Button
                       onClick={handleCreateBooking}
                       disabled={!selectedDay || !selectedTime}
+                      className="lg:w-full"
                     >
                       Confirmar
                     </Button>

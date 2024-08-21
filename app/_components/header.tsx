@@ -25,7 +25,7 @@ const Header = () => {
             src="/logo.png"
             height={18}
             width={120}
-            className="lg:w-60"
+            className="lg:w-40"
             alt="FSW BARBER"
           />
         </Link>
