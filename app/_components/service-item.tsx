@@ -166,7 +166,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   return (
     <>
       <Card>
-        <CardContent className="flex items-center gap-3 p-3">
+        <CardContent className="gap-3 p-3">
           {/* IMAGE */}
           <div className="relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
             <Image
@@ -176,10 +176,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
               className="rounded-lg object-cover"
             />
           </div>
+
           {/* DIREITA */}
           <div className="w-full space-y-2">
             <h3 className="text-sm font-semibold">{service.name}</h3>
             <p className="text-sm text-gray-400">{service.description}</p>
+
             {/* PREÇO E BOTÃO */}
             <div className="flex items-center justify-between">
               <p className="text-sm font-bold text-primary">
@@ -202,41 +204,18 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 </Button>
 
                 {/* SIDEBAR DE RESERVA */}
-                <SheetContent className="overflow-y-auto px-0 lg:w-full [&::-webkit-scrollbar]:hidden">
-                  <SheetHeader className="sm:flex sm:items-center sm:border-b sm:border-solid sm:pb-5">
+                <SheetContent className="overflow-y-auto px-0 [&::-webkit-scrollbar]:hidden">
+                  <SheetHeader className="border-b border-solid pb-3 sm:flex sm:items-center">
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
 
-                  <div className="border-b border-solid py-5 lg:w-full">
+                  <div className="border-b border-solid py-5">
                     <Calendar
                       mode="single"
                       locale={ptBR}
                       selected={selectedDay}
                       onSelect={handleDateSelect}
                       fromDate={new Date()}
-                      styles={{
-                        head_cell: {
-                          width: "100%",
-                          textTransform: "capitalize",
-                        },
-                        cell: {
-                          width: "100%",
-                        },
-                        button: {
-                          width: "100%",
-                        },
-                        nav_button_previous: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        nav_button_next: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        caption: {
-                          textTransform: "capitalize",
-                        },
-                      }}
                     />
                   </div>
 
@@ -276,7 +255,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     <Button
                       onClick={handleCreateBooking}
                       disabled={!selectedDay || !selectedTime}
-                      className="lg:w-full"
+                      className="sm:w-full"
                     >
                       Confirmar
                     </Button>
