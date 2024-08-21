@@ -55,7 +55,7 @@ const Home = async () => {
 
       <main className="p-5">
         {/* TEXTO */}
-        <div className="rounded lg:grid lg:grid-cols-2 lg:bg-[url('/bg-barber.jpeg')] lg:bg-cover lg:bg-center lg:bg-no-repeat lg:pb-8">
+        <div className="rounded lg:grid lg:grid-cols-2 lg:bg-[url('/barbeariabg.png')] lg:bg-cover lg:bg-center lg:bg-no-repeat lg:pb-8">
           <div className="lg:max-w-[85%] lg:pl-24 lg:pt-8">
             {/* User infos */}
             <div>
