@@ -1,38 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
+![Logo do projeto](https://i.imgur.com/SBjpcfw.png)
 ![Logo do projeto](https://i.imgur.com/Srpd4AF.png)
 
-## Getting Started
+# FSW BARBER
 
-First, run the development server:
+* Uma plataforma intuitiva, moderna e totalmente responsiva para agendar e gerenciar serviços de barbearias com facilidade!
+* Deploy do projeto: https://fsw-barber-kohl.vercel.app/ 🖥️
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🔥 O que faz esse projeto se destacar?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Páginas:
+* Página Home com diversas barbearias e funcionalidades para o usuário
+* Página de login com Google
+* Página de agendamentos de serviços 
+* Página detalhada da barbearia com os serviços que ela oferece
+* Página de busca
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Ferramentas:
+* Shadcn UI: biblioteca de componentes UI
+* ESLint: analisa o código em busca de erros e problemas de estilo
+* Lint-Staged: aplica a verificação apenas nos arquivos que estão prestes a ser commitados, otimizando o processo de revisão do código.
+* Husky:  ajuda a garantir que boas práticas sejam aplicadas e que erros sejam detectados cedo, ao automatizar processos de validação durante o fluxo de commits no Git.
+* Google Auth: permite integrar a autenticação de usuários via contas do Google
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🛠️ Tecnologias usadas:
 
-## Learn More
+* ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+* ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+* ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+* ![Google](https://img.shields.io/badge/google-4285F4?style=for-the-badge&logo=google&logoColor=white)
+* ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+* ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
+* ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Links que podem ser úteis para você utilizar em seus projetos 😉:
+* (Badges do Readme: https://github.com/Ileriayo/markdown-badges)
+* (Lib AOS - EFEITOS DE SCROLL: https://michalsnik.github.io/aos/)
+* (Lib React-Hot-Toast: https://react-hot-toast.com/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 📄 Licença
 
-## Deploy on Vercel
+Esse projeto está sob a licença MIT license - acesse os detalhes [LICENSE.md](https://github.com/gabrielmlemes/fsw-barber/blob/master/LICENSE)).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+* MEU LINKTREE: ([Linktree](https://link-tree-gabriel-lemes.vercel.app/))
