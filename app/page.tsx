@@ -11,7 +11,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { ArrowRightCircleIcon } from "lucide-react"
+import SwiperComponent from "./_components/swiper-component"
 
 const Home = async () => {
   // chamando o banco de dados
@@ -107,15 +107,9 @@ const Home = async () => {
               mais visitados
             </h2>
 
-            <div className="hidden lg:flex lg:gap-4 lg:overflow-auto lg:[&::-webkit-scrollbar]:hidden">
-              {mostVisitedBarbershops.map((barbershop) => (
-                <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-              ))}
+            <div className="mt-10">
+              <SwiperComponent barbershops={mostVisitedBarbershops} />
             </div>
-            <ArrowRightCircleIcon
-              className="hidden lg:absolute lg:-right-3 lg:top-[50%] lg:flex"
-              size={26}
-            />
           </div>
         </div>
 
